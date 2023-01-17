@@ -1,6 +1,6 @@
 #pragma once
 
-bool greater_than(char *input_string1, char* input_string2, long input_length1, long input_length2)
+bool string_greater_than(char *input_string1, char* input_string2, long input_length1, long input_length2)
 {
     long maxlength = input_length1 > input_length2 ? input_length1 : input_length2;
     for (long i = 0; i < maxlength; ++i)
@@ -14,7 +14,7 @@ bool greater_than(char *input_string1, char* input_string2, long input_length1, 
     }
     return false;
 }
-bool less_than(char *input_string1, char* input_string2, long input_length1, long input_length2)
+bool string_less_than(char *input_string1, char* input_string2, long input_length1, long input_length2)
 {
     long maxlength = input_length1 > input_length2 ? input_length1 : input_length2;
     for (long i = 0; i < maxlength; ++i)

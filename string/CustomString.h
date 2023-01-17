@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "StringComparation.h"
+#include "StringComparison.h"
 
 class CustomString
 {
@@ -70,11 +70,11 @@ public:
     }
     bool operator>(CustomString &input_string)
     {
-        return greater_than(memory_pointer, input_string.memory_pointer, length, input_string.length);
+        return string_greater_than(memory_pointer, input_string.memory_pointer, length, input_string.length);
     }
     bool operator<(CustomString &input_string)
     {
-        return less_than(memory_pointer, input_string.memory_pointer, length, input_string.length);
+        return string_less_than(memory_pointer, input_string.memory_pointer, length, input_string.length);
     }
 
     char *get_memory_pointer()
