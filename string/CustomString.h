@@ -19,8 +19,7 @@ private:
 
     bool sanitize_index(long input_index)
     {
-        if (input_index < 0 || input_index >= length)
-            return false;
+        if (input_index < 0 || input_index >= length) return false;
         return true;
     }
 
@@ -33,16 +32,14 @@ public:
     CustomString(char *input_string)
     {
         length = 0;
-        while (input_string[length] != '\0')
-            length++;
+        while (input_string[length] != '\0') length++;
         memory_pointer = new char[length];
         for (long i = 0; i < length; i++)
             memory_pointer[i] = input_string[i];
     }
     CustomString(char *input_string, long input_length)
     {
-        if (input_length < 0)
-            throw;
+        if (input_length < 0) throw;
         length = input_length;
         memory_pointer = new char[length];
         for (long i = 0; i < length; i++)
@@ -55,8 +52,7 @@ public:
 
     char& operator[](long input_index)
     {
-        if (!sanitize_index(input_index))
-            throw;
+        if (!sanitize_index(input_index)) throw;
         return memory_pointer[input_index];
     }
     CustomString operator+(CustomString &input_string)
