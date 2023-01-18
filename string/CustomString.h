@@ -10,15 +10,18 @@
 #pragma once
 
 #include "StringComparison.h"
+#include <stdio.h>
 
 class CustomString
 {
 private:
     char *memory_pointer;
-    long length;
+    unsigned long length;
+    bool memory_allocated = false;
 
-    bool sanitize_index(long input_index)
+    bool sanitize_index(unsigned long input_index)
     {
+        if (!memory_allocated) throw;
         if (input_index < 0 || input_index >= length) return false;
         return true;
     }
@@ -32,49 +35,58 @@ public:
     CustomString(char *input_string)
     {
         length = 0;
-        while (input_string[length] != '\0') length++;
+        while (input_string[length] != '\0') ++length;
+        ++length;
         memory_pointer = new char[length];
-        for (long i = 0; i < length; i++)
+        for (long i = 0; i < length; ++i)
             memory_pointer[i] = input_string[i];
+        memory_allocated = true;
+        printf("constructor called and computed length: %d, string: %s\n", length, memory_pointer);
     }
-    CustomString(char *input_string, long input_length)
+    CustomString(char *input_string, unsigned long input_length)
     {
         if (input_length < 0) throw;
         length = input_length;
         memory_pointer = new char[length];
-        for (long i = 0; i < length; i++)
+        for (unsigned long i = 0; i < length; ++i)
             memory_pointer[i] = input_string[i];
+        memory_allocated = true;
     }
     ~CustomString()
     {
-        delete[] memory_pointer;
+        printf("destructor called on: %s\n", memory_pointer);
+        if (memory_allocated) delete[] memory_pointer;
     }
 
-    char& operator[](long input_index)
+    char& operator[](unsigned long input_index)
     {
         if (!sanitize_index(input_index)) throw;
         return memory_pointer[input_index];
     }
     CustomString operator+(CustomString &input_string)
     {
-        char result_string[length + input_string.length];
-        for (long i = 0; i < length; i++)
+        unsigned long result_length = length + input_string.length;
+        char *result_string = new char[result_length];
+        for (long i = 0; i < length; ++i)
             result_string[i] = memory_pointer[i];
-        for (long i = 0; i < input_string.length; i++)
+        for (long i = 0; i < input_string.length; ++i)
             result_string[length + i] = input_string.memory_pointer[i];
-        return CustomString(result_string, length + input_string.length);
+        return CustomString(result_string, result_length);
     }
     bool operator>(CustomString &input_string)
     {
+        printf("operator > called with: %s, %s\n", memory_pointer, input_string.memory_pointer);
         return string_greater_than(memory_pointer, input_string.memory_pointer, length, input_string.length);
     }
     bool operator<(CustomString &input_string)
     {
+        printf("operator < called with: %s, %s\n", memory_pointer, input_string.get_memory_pointer());
         return string_less_than(memory_pointer, input_string.memory_pointer, length, input_string.length);
     }
 
     char *get_memory_pointer()
     {
+        if (!memory_allocated) throw;
         return memory_pointer;
     }
 };
