@@ -1,3 +1,5 @@
+#pragma once
+
 void quicksort_int(int array[], unsigned short input_left, unsigned short input_right)
 {
     short pointer_left = input_left;
